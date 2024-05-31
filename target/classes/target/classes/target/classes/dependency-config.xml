@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="consoleIO" class="learn.foraging.ui.ConsoleIO"/>
+
+    <bean id="view" class="learn.foraging.ui.View">
+        <constructor-arg ref="consoleIO"/>
+    </bean>
+
+    <bean id="foragerFileRepository" class="learn.foraging.data.ForagerFileRepository">
+        <constructor-arg value="./data/foragers.csv"/>
+    </bean>
+
+    <bean id="forageFileRepository" class="learn.foraging.data.ForageFileRepository">
+        <constructor-arg value="./data/forage_data"/>
+    </bean>
+
+    <bean id="itemFileRepository" class="learn.foraging.data.ItemFileRepository">
+        <constructor-arg value="./data/items.txt"/>
+    </bean>
+
+    <bean id="foragerService" class="learn.foraging.domain.ForagerService">
+        <constructor-arg ref="foragerFileRepository"/>
+    </bean>
+
+    <bean id="forageService" class="learn.foraging.domain.ForageService">
+        <constructor-arg ref="forageFileRepository"/>
+        <constructor-arg ref="foragerFileRepository"/>
+        <constructor-arg ref="itemFileRepository"/>
+    </bean>
+
+    <bean id="itemService" class="learn.foraging.domain.ItemService">
+        <constructor-arg ref="itemFileRepository"/>
+    </bean>
+
+    <bean id="controller" class="learn.foraging.ui.Controller">
+        <constructor-arg ref="foragerService"/>
+        <constructor-arg ref="forageService"/>
+        <constructor-arg ref="itemService"/>
+        <constructor-arg ref="view"/>
+    </bean>
+
+
+</beans>
